@@ -1,9 +1,9 @@
 const ProductList = React.createClass({
   render: function() {
-    const product = Data[0];
-    return (
-      <div className='ui items'>
+    const products = Data.map((product) => {
+      return (
         <Product
+          key={'product-' + product.id}
           id={product.id}
           title={product.title}
           description={product.description}
@@ -12,6 +12,11 @@ const ProductList = React.createClass({
           submitter_avatar_url={product.submitter_avatar_url}
           product_image_url={product.product_image_url}
         />
+      );
+    });
+    return (
+      <div className='ui items'>
+        {products}
       </div>
     );
   }
@@ -36,7 +41,7 @@ const Product = React.createClass({
             <a href={this.props.url}>
               {this.props.title}
             </a>
-            <p>Authentic renaissance actors, delivered in just two weeks.</p>
+            <p>{this.props.description}</p>
           </div>
           <div className='extra'>
             <span>Submitted by:</span>
