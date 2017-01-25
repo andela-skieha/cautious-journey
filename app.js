@@ -1,22 +1,26 @@
-const ProductList = React.createClass({
-  getInitialState: function() {
-    return {
+class ProductList extends React.Component {
+  constructor(...args) {
+    super(...args);
+    this.state = {
       products: [],
     };
-  },
+    this.updateState = this.updateState.bind(this);
+    this.handleProductUpVote = this.handleProductUpVote.bind(this);
+    this.handleProductDownVote = this.handleProductDownVote.bind(this);
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.updateState();
-  },
+  }
 
-  updateState: function () {
+  updateState() {
     const products = Data.sort((a, b) => {
       return b.votes - a.votes;
     });
     this.setState({ products: products});
-  },
+  }
 
-  handleProductUpVote: function(productId) {
+  handleProductUpVote(productId) {
     Data.forEach((element) => {
       if (element.id === productId) {
         element.votes += 1;
@@ -24,9 +28,9 @@ const ProductList = React.createClass({
       }
     });
     this.updateState();
-  },
+  }
 
-  handleProductDownVote: function(productId) {
+  handleProductDownVote(productId) {
     Data.forEach((element) => {
       if (element.id === productId) {
         element.votes -= 1;
@@ -34,9 +38,9 @@ const ProductList = React.createClass({
       }
     });
     this.updateState();
-  },
+  }
 
-  render: function() {
+  render() {
     const products = this.state.products.map((product) => {
       return (
         <Product
@@ -53,25 +57,31 @@ const ProductList = React.createClass({
         />
       );
     });
+
     return (
       <div className='ui items'>
         {products}
       </div>
     );
   }
-});
+};
 
+class Product extends React.Component {
+  constructor(...args) {
+    super(...args);
+    this.handleUpVote = this.handleUpVote.bind(this);
+    this.handleDownVote = this.handleDownVote.bind(this);
+  }
 
-const Product = React.createClass({
-  handleUpVote: function() {
+  handleUpVote() {
     this.props.onUpVote(this.props.id);
-  },
+  }
 
-  handleDownVote: function() {
+  handleDownVote() {
     this.props.onDownVote(this.props.id);
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <div className='item'>
         <div className='image'>
@@ -104,9 +114,8 @@ const Product = React.createClass({
         </div>
       </div>
     );
-  },
-});
-
+  }
+}
 
 ReactDOM.render(
   <ProductList />,
